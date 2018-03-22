@@ -1,4 +1,7 @@
 class Todo < ApplicationRecord
+	validates_presence_of :title, :completed
+  
+
 
   after_commit :flush_cache
 

@@ -40,35 +40,35 @@ resource "Authentication" do
   end
 
 
-  post "/auth/" do
-    parameter :email, 'Email address'
-    parameter :password, 'User password'
-    parameter :password_confirmation, 'Confirmation password'
-    parameter :confirm_success_url, 'Redirect URL'
+  #post "/auth/" do
+   # parameter :email, 'Email address'
+    #parameter :password, 'User password'
+    #parameter :password_confirmation, 'Confirmation password'
+    #parameter :confirm_success_url, 'Redirect URL'
 
-    it "user already exist" do
-      do_request(:email => @user.email, :password => @user.password, :password_confirmation => @user.password, :confirm_success_url => 'localhost:3000')
-      expect(status).to eq(422)
-      expect(response_body).to include('Email already in use')
-    end
+    #it "user already exist" do
+     # do_request(:email => @user.email, :password => @user.password, :password_confirmation => @user.password, :confirm_success_url => 'localhost:3000')
+      #expect(status).to eq(422)
+      #expect(response_body).to include('Email already in use')
+    #end
 
-    it "create new user" do
-      @user = FactoryGirl.build(:user)
-      do_request(:email => @user.email, :password => @user.password, :password_confirmation => @user.password, :confirm_success_url => 'localhost:3000')
-      expect(status).to eq(200)
-      expect(response_body).to include(@user.email)
-    end
-  end
+    #it "create new user" do
+     # @user = FactoryGirl.build(:user)
+     # do_request(:email => @user.email, :password => @user.password, :password_confirmation => @user.password, :confirm_success_url => 'localhost:3000')
+     # expect(status).to eq(200)
+     # expect(response_body).to include(@user.email)
+   # end
+  #end
 
 
-  delete '/auth/sign_out' do
-    it "logout current logged user" do
-      user = FactoryGirl.build(:user)
-      set_header(user.create_new_auth_token)
-      do_request
-      expect(status).to eq(200)
-    end
-  end
+#  delete '/auth/sign_out' do
+ #   it "logout current logged user" do
+  #    user = FactoryGirl.build(:user)
+   #   set_header(user.create_new_auth_token)
+    #  do_request
+     # expect(status).to eq(200)
+   # end
+  #end
 
 end
 

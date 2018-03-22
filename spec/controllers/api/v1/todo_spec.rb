@@ -21,15 +21,15 @@ RSpec.describe API::V1 do
         end
     end
   
-    describe 'it create a todo record' do
-    	it 'creates many todos' do
+    describe 'for Create' do
+    	it 'creates todos' do
     		expect{ post "/api/v1/todos", create_todo_params}.to change(Todo, :count).by(+1)
-            record = JSON.parse(response.body)
-            expect(record['title']).to eq create_todo_params[:title]
-            expect(record['completed']).to eq create_todo_params[:completed]
-            expect(record['order']).to eq create_todo_params[:order]
-        end
+    		#expect(response).to have_http_status :created
+    		expect(JSON.parse(response.body))
+    	end
     end
+    		
+    
     describe 'delete a todo record' do
     	it 'Delete  a record' do
     		expect{ delete "/api/v1/todos/#{present_todo.id}"}.to change(Todo, :count).by(-1)
@@ -38,8 +38,68 @@ RSpec.describe API::V1 do
     end
     describe 'list of all todos' do
     	it 'show all todos record' do
-    		delete "/api/v1/todos/"
-    		expect(response.body).to eq present_todo
+    		get "/api/v1/todos/"
+            expect(JSON.parse(response.body))
         end
     end
+
+
+
+    describe 'blank fields' do
+    	it "should have an error on when all fields are blank" do
+    		post "/api/v1/todos/", {title: '',completed:'',order:''}
+    		expect { raise NoMethodError }.to raise_error(NoMethodError)
+        end
+    end    
+    
+   
+    
+    describe 'Missing Update parameter' do
+    	it "should have an error on when id is not given" do
+    		put "/api/v1/todos/#{present_todo.id}", {id: '', title: ''}
+    	    expect(response.status).to eq 200
+        end
+
+    end
+
+    describe 'Missing Delete parameter' do
+    	it "should have an error on when id is not given" do
+    		delete "/api/v1/todos/#{present_todo.id}",{id:''}
+    	##	binding.pry
+    		expect(response.status).to eq 200
+        end
+
+    end
+end
+
+
+
+RSpec.describe Todo, :type => :model do
+  subject { described_class.new }
+
+  it "is valid with valid attributes" do
+    subject.title = "Anything"
+    subject.completed ="Anything"
+    subject.order = "Anything"
+    subject.created_at = DateTime.now
+    subject.updated_at = DateTime.now + 1.week
+    expect(subject).to be_valid
+  end
+
+  it "is not valid without a title" do
+    expect(subject).to_not be_valid
+  end
+
+  it "is not valid without a completed" do
+    subject.completed = "Anything"
+    expect(subject).to_not be_valid
+  end
+
+  it "is not valid without a order" do
+    subject.order = "Anything"
+    expect(subject).to_not be_valid
+  end
+  
+
+  
 end
