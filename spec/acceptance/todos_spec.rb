@@ -23,18 +23,18 @@ resource "TODO" do
   end
 
   # GET /todos
-  get "/todos.json" do
-    parameter :parameter1, "The thing you want to greet"
-    parameter :parameter2, "The thing you want to greet"
+ # get "/todos.json" do
+  #  parameter :parameter1, "The thing you want to greet"
+   # parameter :parameter2, "The thing you want to greet"
 
-    it "Name showed on index page" do
-      explanation "This is example comment which is added to documentation"
-      do_request
-      expect(response_headers["Content-Type"]).to eq("application/json; charset=utf-8")
-      expect(status).to eq(200)
-      expect(response_body).to include('success')
-    end
-  end
+    #it "Name showed on index page" do
+     # explanation "This is example comment which is added to documentation"
+     # do_request
+     # expect(response_headers["Content-Type"]).to eq("application/json; charset=utf-8")
+     # expect(status).to eq(200)
+     # expect(response_body).to include('success')
+    #end
+ # end
 
 end
 
